@@ -15,10 +15,13 @@ export default function Home() {
       const response = await fetch(anime_Api);
       const animeData = await response.json();
       console.log(animeData.data);
-
+      setData(animeData.data);
+      
     };
     fetchData();
+
   }, []);
+
 
 
   return (
@@ -27,7 +30,12 @@ export default function Home() {
 
       <h1 className="mb-[55px]" style={{ fontSize: "35px" }}>Anime Series</h1>
 
-      <AnimeSeries />
+      <div className='AnimeSeriesContainer flex flex-wrap gap-4 justify-center overflow-hidden'>
+        {data?.map((item, index) => (
+          <AnimeSeries item={item} key={index} />
+        ))};
+      </div>
+
 
     </main>
   );
