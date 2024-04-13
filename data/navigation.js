@@ -13,7 +13,17 @@ const navigation =
     {
         nav:"Manga",
         url:"mangaPage"
-    }
+    },
+    {
+        nav:"AnimeTest",
+        url:"AnimeTest"
+    },
+    {
+        nav:"Dashboard",
+        url:"Dashboard"
+    },
+
+    
 ]
 
 export default navigation

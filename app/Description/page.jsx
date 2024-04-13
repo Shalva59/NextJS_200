@@ -3,19 +3,25 @@
 import React from 'react';
 import { CloudArrowUpIcon, LockClosedIcon, ServerIcon } from '@heroicons/react/20/solid';
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 
 const Page = () => {
 
   const [data, setData] = useState(null);
   const [id, setId] = useState(null);
+  const searchParams = useSearchParams();
+
+  const searchID = searchParams.get("id");
+
 
   useEffect(() => {
-    const storedId = sessionStorage.getItem('id');
-    setId(storedId);
+    //  const storedId = sessionStorage.getItem('id');
+    //  setId(storedId);
 
+    console.log(searchID)
     const fetchData = async () => {
       try {
-        const response = await fetch(`https://api.jikan.moe/v4/anime/${storedId}`);
+        const response = await fetch(`https://api.jikan.moe/v4/anime/${searchID}`);
         const animeData = await response.json();
         console.log(animeData.data);
         setData(animeData.data);
@@ -24,15 +30,16 @@ const Page = () => {
       }
     };
 
-    if (storedId) {
+    if (searchID) 
+    {
       fetchData();
     }
   }, []);
 
   return (
-   
-   
-   <div className="relative isolate overflow-hidden bg-white px-6 py-24 sm:py-32 lg:overflow-visible lg:px-0">
+
+
+    <div className="relative isolate overflow-hidden bg-white px-6 py-24 sm:py-32 lg:overflow-visible lg:px-0">
       <div className="absolute inset-0 -z-10 overflow-hidden">
         <svg
           className="absolute left-[max(50%,25rem)] top-0 h-[64rem] w-[128rem] -translate-x-1/2 stroke-gray-200 [mask-image:radial-gradient(64rem_64rem_at_top,white,transparent)]"
@@ -65,10 +72,7 @@ const Page = () => {
             <div className="lg:max-w-lg">
               <p className="text-base font-semibold leading-7 text-indigo-600">{data && data.title}</p>
               <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{data && data.title_english}</h1>
-              <p className="mt-6 text-xl leading-8 text-gray-700">
-                Aliquet nec orci mattis amet quisque ullamcorper neque, nibh sem. At arcu, sit dui mi, nibh dui, diam
-                eget aliquam. Quisque id at vitae feugiat egestas.
-              </p>
+
             </div>
           </div>
         </div>
@@ -77,7 +81,7 @@ const Page = () => {
             className="w-[48rem] max-w-none rounded-xl bg-gray-900 shadow-xl ring-1 ring-gray-400/10 sm:w-[57rem]"
             src={data && data.images.jpg.large_image_url}
             alt=""
-          
+
           />
         </div>
         <div className="lg:col-span-2 lg:col-start-1 lg:row-start-2 lg:mx-auto lg:grid lg:w-full lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8">

@@ -16,7 +16,7 @@ export default function Home() {
       const animeData = await response.json();
       console.log(animeData.data);
       setData(animeData.data);
-      
+
     };
     fetchData();
 
@@ -32,11 +32,9 @@ export default function Home() {
 
       <div className='AnimeSeriesContainer flex flex-wrap gap-4 justify-center overflow-hidden'>
         {data?.map((item, index) => (
-          <AnimeSeries item={item} key={index} />
-        ))};
+         <AnimeSeries item={item} key={index}/>
+        ))}
       </div>
-
-
-    </main>
+  </main>
   );
 }
