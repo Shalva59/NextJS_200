@@ -6,6 +6,8 @@ import anime_Api from '@/lib/animeApi';
 import HomeIndex from "@/app/Home/page"
 import AnimeInfo from "@/components/layout/AnimeInfo";
 import AnimeSeries from "@/components/layout/AnimeSeries";
+import Pagintaion from "@/app/pagination/Pagination"
+
 
 export default function Home() {
   const [data, setData] = useState(null);
@@ -32,9 +34,16 @@ export default function Home() {
 
       <div className='AnimeSeriesContainer flex flex-wrap gap-4 justify-center overflow-hidden'>
         {data?.map((item, index) => (
-         <AnimeSeries item={item} key={index}/>
+          <AnimeSeries item={item} key={index} />
         ))}
+
+
       </div>
-  </main>
+
+      <div className="pageContainer">
+        <Pagintaion />
+      </div>
+
+    </main>
   );
 }

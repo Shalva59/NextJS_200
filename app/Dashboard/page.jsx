@@ -1,7 +1,8 @@
 "use client"
 import React, { useState, useEffect } from 'react';
-import { collection, setDoc } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { addDoc, collection, setDoc } from "firebase/firestore";
+import { ref, upoloadBytes, getDownloadURL, uploadBytes } from "firebase/storage"
+import { db, storage } from "@/lib/firebase";
 const Dashboard = () => {
 
     const [title, setTitle] = useState("");
@@ -9,19 +10,40 @@ const Dashboard = () => {
     const [smallDescription, setSmallDescription] = useState("");
     const [file, setFile] = useState(null);
 
+    const handleImageChange = (e) => {
+        setFile([...e.target.files]);
+    }
+
+    console.log(file);
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const imagesURL = await Promise.all(
+            Array.from(file).map(async (image) => {
+                file.map(async (file) => {
+                    const imageRef = ref(storage, `images/${image.name}`)
+                    const uploadResult = await uploadBytes(imageRef, image);
+                    return getDownloadURL(uploadResult.ref);
+                })
+            })
+        );
 
-        const data = {
-            title,
-            description,
-            smallDescription,
-            file,
-        };
+        console.log(imagesURL);
+
+   
 
         console.log(data);
 
-        await setDoc(collection(db, "blogs"), data);
+        await addDoc(collection(db, "blogs"),{ 
+            title,
+            description,
+            smallDescription,
+            imagesURL, 
+        });
+
+        setFile(null);
+        setTitle("");
+        setDescription("");
+        setSmallDescription("");
     };
 
     return (
@@ -77,7 +99,7 @@ const Dashboard = () => {
                             name="file"
                             id="file"
                             className="formbold-form-input"
-                            onChange={(e) => setFile(e.target.files[0])}
+                            onChange={handleImageChange}
                         />
                     </div>
 
