@@ -4,46 +4,37 @@ import { addDoc, collection, setDoc } from "firebase/firestore";
 import { ref, upoloadBytes, getDownloadURL, uploadBytes } from "firebase/storage"
 import { db, storage } from "@/lib/firebase";
 const Dashboard = () => {
-
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [smallDescription, setSmallDescription] = useState("");
     const [file, setFile] = useState(null);
-
-    const handleImageChange = (e) => {
-        setFile([...e.target.files]);
-    }
-
-    console.log(file);
+  
+    const handleImagesChange = (e) => {
+      setFile([...e.target.files]);
+    };
+  
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        const imagesURL = await Promise.all(
-            Array.from(file).map(async (image) => {
-                file.map(async (file) => {
-                    const imageRef = ref(storage, `images/${image.name}`)
-                    const uploadResult = await uploadBytes(imageRef, image);
-                    return getDownloadURL(uploadResult.ref);
-                })
-            })
-        );
-
-        console.log(imagesURL);
-
-   
-
-        console.log(data);
-
-        await addDoc(collection(db, "blogs"),{ 
-            title,
-            description,
-            smallDescription,
-            imagesURL, 
-        });
-
-        setFile(null);
-        setTitle("");
-        setDescription("");
-        setSmallDescription("");
+      e.preventDefault();
+      const imagesURL = await Promise.all(
+        Array.from(file).map(async (image) => {
+          console.log(image);
+          const imageRef = ref(storage, `images/${image.name}`);
+          const uploadResult = await uploadBytes(imageRef, image);
+          return getDownloadURL(uploadResult.ref);
+        })
+      );
+      console.log(imagesURL);
+  
+      await addDoc(collection(db, "blogs"), {
+        title,
+        description,
+        smallDescription,
+        imagesURL,
+      });
+      setFile(null);
+      setTitle("");
+      setDescription("");
+      setSmallDescription("");
     };
 
     return (
@@ -99,7 +90,7 @@ const Dashboard = () => {
                             name="file"
                             id="file"
                             className="formbold-form-input"
-                            onChange={handleImageChange}
+                            onChange={handleImagesChange}
                         />
                     </div>
 
