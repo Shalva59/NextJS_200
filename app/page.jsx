@@ -11,20 +11,26 @@ import Pagintaion from "@/app/pagination/Pagination"
 
 export default function Home() {
   const [data, setData] = useState(null);
+  const [page, setPage] = useState(1);
+
+  console.log(page);
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(anime_Api);
+      const response = await fetch(`https://api.jikan.moe/v4/top/anime?page=${page}`);
       const animeData = await response.json();
       console.log(animeData.data);
+      // setPage(animeData.pagination);
       setData(animeData.data);
+
 
     };
     fetchData();
 
-  }, []);
+  }, [page]);
 
-
+  console.log("Updated Page : " + page);
+  // setPage(page + 1);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
@@ -40,8 +46,53 @@ export default function Home() {
 
       </div>
 
-      <div className="pageContainer">
-        <Pagintaion />
+      {/* <button onClick={() => {
+        setPage(page + 1);
+      }}>
+        newPage
+      </button>  */}
+
+      <div className="pageContainer mt-[60px]">
+        {/* <Pagintaion  /> */}
+
+
+        <div>
+
+
+          <ul class="inline-flex -space-x-px text-sm">
+            <li>
+              <button onClick={() => {
+                setPage(page === 1 ? 1 : page - 1);
+
+
+              }} class="flex  items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Previous</button>
+            </li>
+
+        
+
+            {/* <li>
+              <button class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">1</button>
+            </li>
+            <li>
+              <button class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">2</button>
+            </li>
+            <li>
+              <button aria-current="page" class="flex items-center justify-center px-3 h-8 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">3</button>
+            </li>
+            <li>
+              <button class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">4</button>
+            </li>
+            <li>
+              <button class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">5</button>
+            </li> */}
+            <li>
+              <button onClick={() => {
+                setPage(page + 1);
+              }}
+                class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">  Next</button>
+            </li>
+          </ul>
+        </div>
       </div>
 
     </main>

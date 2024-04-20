@@ -13,6 +13,9 @@ const Page = () => {
 
   const searchID = searchParams.get("id");
 
+  const highQualityImage = data?.trailer?.images?.maximum_image_url;
+  const lowQualityImage = data?.images?.jpg?.large_image_url;
+
 
   useEffect(() => {
     //  const storedId = sessionStorage.getItem('id');
@@ -30,8 +33,7 @@ const Page = () => {
       }
     };
 
-    if (searchID) 
-    {
+    if (searchID) {
       fetchData();
     }
   }, []);
@@ -78,50 +80,88 @@ const Page = () => {
         </div>
         <div className="-ml-12 -mt-12 p-12 lg:sticky lg:top-4 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:overflow-hidden">
           <img
-            className="w-[48rem] max-w-none rounded-xl bg-gray-900 shadow-xl ring-1 ring-gray-400/10 sm:w-[57rem]"
-            src={data && data.images.jpg.large_image_url}
-            alt=""
-
+            className="object-cover w-[48rem] h-[700px] max-w-none rounded-xl bg-gray-900 shadow-xl ring-1 ring-gray-400/10 sm:w-[57rem]"
+            src={(highQualityImage != null) ? highQualityImage : lowQualityImage}
+            //{data && data.images.jpg.large_image_url}
+            alt={data && data.title}
           />
         </div>
-        <div className="lg:col-span-2 lg:col-start-1 lg:row-start-2 lg:mx-auto lg:grid lg:w-full lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8">
+        <div className="lg:col-span-2  lg:col-start-1 lg:row-start-2 lg:mx-auto lg:grid lg:w-full lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8">
           <div className="lg:pr-4">
-            <div className="max-w-xl text-base leading-7 text-gray-700 lg:max-w-lg">
+            <div className="max-w-xl  text-base leading-7 text-gray-700 lg:max-w-lg">
               <p>
-                Faucibus commodo massa rhoncus, volutpat. Dignissim sed eget risus enim. Mattis mauris semper sed amet
-                vitae sed turpis id. Id dolor praesent donec est. Odio penatibus risus viverra tellus varius sit neque
-                erat velit. Faucibus commodo massa rhoncus, volutpat. Dignissim sed eget risus enim. Mattis mauris
-                semper sed amet vitae sed turpis id.
+                {data?.synopsis}
               </p>
-              <ul role="list" className="mt-8 space-y-8 text-gray-600">
-                <li className="flex gap-x-3">
-                  <CloudArrowUpIcon className="mt-1 h-5 w-5 flex-none text-indigo-600" aria-hidden="true" />
-                  <span>
-                    <strong className="font-semibold text-gray-900">Push to deploy.</strong> Lorem ipsum, dolor sit amet
-                    consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate
-                    blanditiis ratione.
+              <ul role="list" className="mt-8 space-y-8 text-gray-600 ">
+                <li className="flex gap-x-3 ">
+                  {/* <CloudArrowUpIcon className="mt-1 h-5 w-5 flex-none text-indigo-600" aria-hidden="true" /> */}
+                  <span className='font-semibold	'>
+                    <strong className="font-semibold text-gray-900">Released : </strong> {data?.year}
                   </span>
                 </li>
                 <li className="flex gap-x-3">
-                  <LockClosedIcon className="mt-1 h-5 w-5 flex-none text-indigo-600" aria-hidden="true" />
-                  <span>
-                    <strong className="font-semibold text-gray-900">SSL certificates.</strong> Anim aute id magna aliqua
-                    ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo.
+                  {/* <LockClosedIcon className="mt-1 h-5 w-5 flex-none text-indigo-600" aria-hidden="true" /> */}
+                  <span className='font-semibold'>
+                    <strong className="font-semibold text-gray-900">Type : </strong> {data?.themes[0]?.type}
                   </span>
                 </li>
                 <li className="flex gap-x-3">
-                  <ServerIcon className="mt-1 h-5 w-5 flex-none text-indigo-600" aria-hidden="true" />
+                  {/* <ServerIcon className="mt-1 h-5 w-5 flex-none text-indigo-600" aria-hidden="true" /> */}
                   <span>
-                    <strong className="font-semibold text-gray-900">Database backups.</strong> Ac tincidunt sapien
-                    vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.
+                    <strong className="font-semibold text-gray-900">Age is acceptable : </strong> {data?.rating}
                   </span>
                 </li>
+                <li className="flex gap-x-3">
+                  {/* <ServerIcon className="mt-1 h-5 w-5 flex-none text-indigo-600" aria-hidden="true" /> */}
+                  <span>
+                    <strong className="font-semibold text-gray-900">score : </strong> {data?.score}
+                  </span>
+                </li>
+
+                <li className="flex gap-x-3">
+                  {/* <ServerIcon className="mt-1 h-5 w-5 flex-none text-indigo-600" aria-hidden="true" /> */}
+                  <span className='flex justify-center items-center justify-around'>
+                    <strong className="font-semibold text-gray-900 ">Genres : </strong>
+                    {
+                      data?.genres.map((item, index) =>
+                      (
+                        <span className='bg-violet-500 text-white rounded-lg p-1  mx-1.5 text-xs' key={index}>   {item.name}  </span>
+
+                      ))
+                    }
+                  </span>
+                </li>
+
+                <li className="flex gap-x-3">
+                  {/* <ServerIcon className="mt-1 h-5 w-5 flex-none text-indigo-600" aria-hidden="true" /> */}
+
+                  <div className='flex  mt-[-39px]  items-center justify-stretch'>
+                    <div className='one'>
+                      <strong className="font-semibold text-gray-900 ">Producers: </strong>
+                    </div>
+
+                    <div className=" second mt-[39px] self-center flex flex-wrap">
+                      {data?.producers.map((item, index) => (
+                        <a
+                          href={item.url}
+                          target="_blank"
+                          className="flex text-nowrap bg-violet-500 text-white rounded-lg p-1 mx-1.5 text-xs mb-2" // Added mb-2 for vertical margin
+                          key={index}
+                        >
+                          {item.name}
+                        </a>
+                      ))}
+                    </div>
+
+                  </div>
+                </li>
+
               </ul>
-              <p className="mt-8">
+              {/* <p className="mt-8">
                 Et vitae blandit facilisi magna lacus commodo. Vitae sapien duis odio id et. Id blandit molestie auctor
                 fermentum dignissim. Lacus diam tincidunt ac cursus in vel. Mauris varius vulputate et ultrices hac
                 adipiscing egestas. Iaculis convallis ac tempor et ut. Ac lorem vel integer orci.
-              </p>
+              </p> */}
               <h2 className="mt-16 text-2xl font-bold tracking-tight text-gray-900">No server? No problem.</h2>
               <p className="mt-6">
                 Id orci tellus laoreet id ac. Dolor, aenean leo, ac etiam consequat in. Convallis arcu ipsum urna nibh.
