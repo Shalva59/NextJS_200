@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image";
 import { useState, useEffect } from "react";
 import anime_Api from '@/lib/animeApi';
 import HomeIndex from "@/app/Home/page"
@@ -9,11 +8,14 @@ import AnimeSeries from "@/components/layout/AnimeSeries";
 import Pagintaion from "@/app/pagination/Pagination"
 import SearchBar from "./SearchBar/SearchBar";
 
+
 export default function Home() {
   const [data, setData] = useState(null);
   const [page, setPage] = useState(1);
-
+  const [value, setValue] = useState("");
   console.log(page);
+
+  console.log(value);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,12 +25,13 @@ export default function Home() {
       // setPage(animeData.pagination);
       setData(animeData.data);
 
-
     };
     fetchData();
 
   }, [page]);
 
+
+  console.log("Main : " + value)
   console.log("Updated Page : " + page);
   // setPage(page + 1);
 
@@ -36,11 +39,15 @@ export default function Home() {
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <AnimeInfo />
 
-      <SearchBar width={300} height={100}/>
+      <SearchBar
+        width={300}
+        height={100}
+        valueChange={setValue}
+      />
 
       <h1 className="mb-[55px]" style={{ fontSize: "35px" }}>Anime Series</h1>
 
-   
+
 
       <div className='AnimeSeriesContainer flex flex-wrap gap-4 justify-center overflow-hidden'>
         {data?.map((item, index) => (

@@ -16,10 +16,10 @@ const Dashboard = () => {
     const handleSubmit = async (e) => {
       e.preventDefault();
       const imagesURL = await Promise.all(
-        Array.from(file).map(async (image) => {
-          console.log(image);
-          const imageRef = ref(storage, `images/${image.name}`);
-          const uploadResult = await uploadBytes(imageRef, image);
+        Array.from(file).map(async (img) => {
+          console.log(img);
+          const imageRef = ref(storage, `images/${img.name}`);
+          const uploadResult = await uploadBytes(imageRef, img);
           return getDownloadURL(uploadResult.ref);
         })
       );

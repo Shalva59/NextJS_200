@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import anime_Api from "@/lib/animeApi";
 import Link from 'next/link'
-
+import Image from "next/image";
 const AnimeSeries = ({ item, key }) => {
 
   //const [data, setData] = useState([]);
@@ -55,7 +55,7 @@ const AnimeSeries = ({ item, key }) => {
           </div>
 
           <div className="flex">
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAABP0lEQVR4nO3TsUucQRAF8J+IhVU6i1waiYbUMTbW2h2kClaBA0GwSG/nYSNiaWkKC5twnIXYBPIXJNclCFY2gikMeEaIhUTZMAeXY/UUN909eLDMt/PeNzM7DFAIz9DAebCJyZLiP3HdwxSrlDBohOBX1IKtiH0sYXAeYkm4GqxF7KyEQft/GzRDrJVpUWrfo/ECp7cMeUIhVGKg7WCjpPgAt2IYc1jHZxzgFy5wiE9YxisPxGgk/si8nBw72/wa0/3En+JbV/IxdrGCJcziJabwDgsYj9wP2O5nsB/CR6h3bW6HqbocnkTrLjF2l8HvMJjPiFfxvOvuDLawh+9dVZ/gS/xsuvMP+vX7DzYxFKxHrPfeFd7nKri+J3cwEjmLme9vFUQ1Y/CmpEHakzTc1WA6b5Q0WIun20E6p9hf3ADNz33/3oWCGQAAAABJRU5ErkJggg=="></img>
+            <img src="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAABP0lEQVR4nO3TsUucQRAF8J+IhVU6i1waiYbUMTbW2h2kClaBA0GwSG/nYSNiaWkKC5twnIXYBPIXJNclCFY2gikMeEaIhUTZMAeXY/UUN909eLDMt/PeNzM7DFAIz9DAebCJyZLiP3HdwxSrlDBohOBX1IKtiH0sYXAeYkm4GqxF7KyEQft/GzRDrJVpUWrfo/ECp7cMeUIhVGKg7WCjpPgAt2IYc1jHZxzgFy5wiE9YxisPxGgk/si8nBw72/wa0/3En+JbV/IxdrGCJcziJabwDgsYj9wP2O5nsB/CR6h3bW6HqbocnkTrLjF2l8HvMJjPiFfxvOvuDLawh+9dVZ/gS/xsuvMP+vX7DzYxFKxHrPfeFd7nKri+J3cwEjmLme9vFUQ1Y/CmpEHakzTc1WA6b5Q0WIun20E6p9hf3ADNz33/3oWCGQAAAABJRU5ErkJggg=="></img>
             <p class="ms-2 text-sm font-bold text-zinc-600 text-gray-900 dark:text-white"> {Math.floor(item?.favorites/1000)+"k"}</p>
           </div>
 

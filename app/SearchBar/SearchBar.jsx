@@ -1,25 +1,36 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import animeSearchApi from '@/lib/animeSearchApi';
+import page from '../AnimePage/page';
 
-
-const SearchBar = (width, height) => {
+const SearchBar = ({width, height, valueChange}) => {
 
     //console.log(width);
     // console.log(height);
 
-    const [searchApi, SetSearchApi] = useState(animeSearchApi);
-    const [value, SetValue] = useState("");
+    const [data, setData] = useState();
+    const [inputValue, setInputValue] = useState('');
 
-    const handleSearchChange = (e) => {
-        SetValue(e.target.value);
-    };
+    const handleInputChange = (event) => {
+        setInputValue(event.target.value);
+        valueChange(event.target.value);
+      };
 
-    useEffect(async () => {
-        const fetchSearchApi = await fetch(`${searchApi}/${value}`);
-        const movies = await fetchSearchApi.json();
-        console.log(movies);
-    }, [searchApi]);
+     // console.log(inputValue)
+
+      useEffect(() => {
+        const fetchData = async () => {
+          const response = await fetch(`${animeSearchApi}?q=${inputValue}`);
+          const animeDataSearch = await response.json();
+          console.log(animeDataSearch.data);
+          // setPage(animeData.pagination);
+          setData(animeDataSearch.data);      
+        };
+        fetchData();
+    
+      }, []);
+
+
 
     return (
         <form className="max-w-md mx-auto mb-10">
@@ -32,8 +43,8 @@ const SearchBar = (width, height) => {
                 </div>
                 <input
                     type="search"
-                    value={value}
-                    onChange={handleSearchChange}
+                    value={inputValue}
+                    onChange={handleInputChange}
                     id="default-search"
                     className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Search Mockups, Logos..."
@@ -45,4 +56,5 @@ const SearchBar = (width, height) => {
     );
 }
 
-export default SearchBar
+export default SearchBar;
+
