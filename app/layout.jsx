@@ -6,7 +6,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { ChakraProvider } from '@chakra-ui/react'
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,25 +14,31 @@ const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({ children }) {
 
-const router= useRouter();
+  // const useRouter = useRouter();
+  const pathname = usePathname();
+  const router = useRouter();
+  console.log("router", router);
+  console.log("pathname", pathname);
 
+
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
-
-    const handleRouteChange = ()=> 
-    {
-      const token = sessionStorage.getItem("token");
+    const handleRouteChange = () => {
       if (!token) {
-       router.push("/");
+        console.log("no token")
+        window.location.href = "/Authorization/login";
+        // router.push("/login");
+
       }
       else {
         console.log("token", token);
       }
     }
- 
+
     handleRouteChange();
 
-  }, [router]);
+  }, [pathname, token]);
 
   return (
     <html lang="en">

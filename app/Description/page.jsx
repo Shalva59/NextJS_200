@@ -12,7 +12,7 @@ const Page = () => {
   const searchParams = useSearchParams();
 
   const searchID = searchParams.get("id");
-
+  const searchType = searchParams.get("type");
   const highQualityImage = data?.trailer?.images?.maximum_image_url;
   const lowQualityImage = data?.images?.jpg?.large_image_url;
 
@@ -22,12 +22,29 @@ const Page = () => {
     //  setId(storedId);
 
     console.log(searchID)
+
+    let foo = "";
+
+
     const fetchData = async () => {
       try {
-        const response = await fetch(`https://api.jikan.moe/v4/anime/${searchID}`);
+
+        
+
+        const response = await fetch(`https://api.jikan.moe/v4/${(searchType === "Manga" ? "manga" : "anime" )}/${searchID}`);
+        //        https://api.jikan.moe/v4/manga/{id}
         const animeData = await response.json();
+
         console.log(animeData.data);
         setData(animeData.data);
+
+
+
+        // const response = await fetch();
+        // //        https://api.jikan.moe/v4/manga/{id}
+        // const animeData = await response.json();
+        // console.log(animeData.data);
+        // setData(animeData.data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -121,7 +138,7 @@ const Page = () => {
                 <li className="flex gap-x-3">
                   {/* <ServerIcon className="mt-1 h-5 w-5 flex-none text-indigo-600" aria-hidden="true" /> */}
                   <span className='flex justify-center items-center justify-around'>
-                    <strong className="font-semibold text-gray-900 ">Genres : </strong>
+                    <strong className="font-semibold text-gray-900 ">Genres: </strong>
                     {
                       data?.genres.map((item, index) =>
                       (
@@ -141,7 +158,7 @@ const Page = () => {
                     </div>
 
                     <div className=" second mt-[39px] self-center flex flex-wrap">
-                      {data?.producers.map((item, index) => (
+                      {data?.producers?.map?.((item, index) => (
                         <a
                           href={item.url}
                           target="_blank"
@@ -162,12 +179,9 @@ const Page = () => {
                 fermentum dignissim. Lacus diam tincidunt ac cursus in vel. Mauris varius vulputate et ultrices hac
                 adipiscing egestas. Iaculis convallis ac tempor et ut. Ac lorem vel integer orci.
               </p> */}
-              <h2 className="mt-16 text-2xl font-bold tracking-tight text-gray-900">No server? No problem.</h2>
+              <h2 className="mt-16 text-2xl font-bold tracking-tight text-gray-900">More info</h2>
               <p className="mt-6">
-                Id orci tellus laoreet id ac. Dolor, aenean leo, ac etiam consequat in. Convallis arcu ipsum urna nibh.
-                Pharetra, euismod vitae interdum mauris enim, consequat vulputate nibh. Maecenas pellentesque id sed
-                tellus mauris, ultrices mauris. Tincidunt enim cursus ridiculus mi. Pellentesque nam sed nullam sed diam
-                turpis ipsum eu a sed convallis diam.
+              {(data?.background) ? data?.background : <h3>Not mini info</h3> }
               </p>
             </div>
           </div>

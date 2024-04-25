@@ -19,9 +19,9 @@ const Login = () => {
 
       const userCredentials = await signInWithEmailAndPassword(auth , email , password);
       console.log(userCredentials);
-      sessionStorage.setItem("token" , userCredentials.user.accessToken);
+      localStorage.setItem("token" , userCredentials.user.accessToken);
 
-    //  window.location.href = '/';
+      window.location.href = '/';
     }
 
     catch (error) {
