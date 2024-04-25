@@ -29,9 +29,9 @@ const Page = () => {
     const fetchData = async () => {
       try {
 
-        
 
-        const response = await fetch(`https://api.jikan.moe/v4/${(searchType === "Manga" ? "manga" : "anime" )}/${searchID}`);
+
+        const response = await fetch(`https://api.jikan.moe/v4/${(searchType === "Manga" ? "manga" : "anime")}/${searchID}`);
         //        https://api.jikan.moe/v4/manga/{id}
         const animeData = await response.json();
 
@@ -113,7 +113,7 @@ const Page = () => {
                 <li className="flex gap-x-3 ">
                   {/* <CloudArrowUpIcon className="mt-1 h-5 w-5 flex-none text-indigo-600" aria-hidden="true" /> */}
                   <span className='font-semibold	'>
-                    <strong className="font-semibold text-gray-900">Released : </strong> {data?.year}
+                    <strong className="font-semibold text-gray-900">Released : </strong> {(data?.year) ? data?.year : data?.published?.string}
                   </span>
                 </li>
                 <li className="flex gap-x-3">
@@ -125,7 +125,7 @@ const Page = () => {
                 <li className="flex gap-x-3">
                   {/* <ServerIcon className="mt-1 h-5 w-5 flex-none text-indigo-600" aria-hidden="true" /> */}
                   <span>
-                    <strong className="font-semibold text-gray-900">Age is acceptable : </strong> {data?.rating}
+                    <strong className="font-semibold text-gray-900">Age is acceptable : </strong> {(data?.rating) ? data?.rating : <span>Not info</span>}
                   </span>
                 </li>
                 <li className="flex gap-x-3">
@@ -142,8 +142,7 @@ const Page = () => {
                     {
                       data?.genres.map((item, index) =>
                       (
-                        <span className='bg-violet-500 text-white rounded-lg p-1  mx-1.5 text-xs' key={index}>   {item.name}  </span>
-
+                        <span className='bg-violet-500 text-white rounded-lg p-1  mx-1.5 text-xs' key={index}>  <a href={item.url} target="_blank" >{item.name}</a>   </span>
                       ))
                     }
                   </span>
@@ -181,7 +180,7 @@ const Page = () => {
               </p> */}
               <h2 className="mt-16 text-2xl font-bold tracking-tight text-gray-900">More info</h2>
               <p className="mt-6">
-              {(data?.background) ? data?.background : <h3>Not mini info</h3> }
+                {(data?.background) ? data?.background : <h3>Not mini info</h3>}
               </p>
             </div>
           </div>
