@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react'
 import animeSearchApi from '@/lib/animeSearchApi';
 import page from '../AnimePage/page';
 import Link from 'next/link';
+import { debounce } from 'lodash';
+import { document } from 'postcss';
 
 const SearchBar = ({ width, height, valueChange }) => {
 
@@ -13,24 +15,31 @@ const SearchBar = ({ width, height, valueChange }) => {
     const [inputValue, setInputValue] = useState('');
 
     const handleInputChange = (event) => {
+
         setInputValue(event.target.value);
         valueChange(event.target.value);
     };
 
-    // console.log(inputValue)
+    const fetchData = async (search) => {
+        const response = await fetch(`${animeSearchApi}?q=${search}`);
+        const animeDataSearch = await response.json();
+        console.log(animeDataSearch.data);
+        // setPage(animeData.pagination);
+        setData(animeDataSearch.data);
+    };
 
     useEffect(() => {
-        const fetchData = async () => {
-            const response = await fetch(`${animeSearchApi}?q=${inputValue}`);
-            const animeDataSearch = await response.json();
-            console.log(animeDataSearch.data);
-            // setPage(animeData.pagination);
-            setData(animeDataSearch.data);
-        };
         fetchData();
 
     }, []);
+    // console.log(inputValue)
 
+    const animeApi = (e) => {
+        e.preventDefault();
+        fetchData(inputValue);
+
+       document.getElementById('dropdown').classList.remove("hidden");
+    }
 
 
     return (
@@ -51,11 +60,23 @@ const SearchBar = ({ width, height, valueChange }) => {
                     placeholder="Search Anime or Manga"
                     required
                 />
-                <button  className="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    <Link href={`/SearchPage/?data=${data}}`}>
-                        Search
-                    </Link>
+                <button onClick={animeApi} className="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    search
                 </button>
+
+            </div>
+
+            <div id="dropdown" class="z-10 drop hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+                    {
+                        data?.map((item, index) =>
+                        (
+                            <li key={index}>
+                                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">${item.title_english}</a>
+                            </li>
+                        ))
+                    }
+                </ul>
             </div>
         </form>
     );
