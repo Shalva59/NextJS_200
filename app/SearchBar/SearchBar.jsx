@@ -38,7 +38,7 @@ const SearchBar = ({ width, height, valueChange }) => {
         e.preventDefault();
         fetchData(inputValue);
 
-       document.getElementById('dropdown').classList.remove("hidden");
+    //    document?.getElementById('dropdown').classList.remove("hidden");
     }
 
 
